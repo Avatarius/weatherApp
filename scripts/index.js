@@ -19,6 +19,7 @@ const temperature = document.querySelector(".content__temperature");
 const humidity = document.querySelector(".details__percent_humidity");
 const windSpeed = document.querySelector(".details__percent_wind");
 const errorSpan = document.querySelector(".content__error");
+const image = document.querySelector('.content__image');
 
 const searchForm = document.querySelector(".content__form");
 const searchInput = document.querySelector(".content__input");
@@ -48,6 +49,7 @@ async function setData(location) {
       throw new Error(`Ошибка ${response.status}`);
     }
     const json = await response.json();
+    setIcon(json.weather.at(0).id);
     loc.textContent = json.name;
     description.textContent = json.weather.at(0).description;
     temperature.textContent = `${json.main.temp}°C`;
@@ -58,6 +60,27 @@ async function setData(location) {
   } catch (error) {
     reportWrongLocation(errorSpan, searchInput, validationObj);
   }
+}
+
+function setIcon(weatherId) {
+  let iconName;
+  if (weatherId >= 200 && weatherId <= 232) {
+    iconName = 'thunderstorm';
+  } else if (weatherId >= 300 && weatherId <= 321) {
+    iconName = 'drizzle';
+  } else if (weatherId >= 500 && weatherId <= 531) {
+    iconName = 'rain';
+  } else if (weatherId >= 600 && weatherId <= 622) {
+    iconName = 'snow';
+  } else if (weatherId >= 701 && weatherId <= 781) {
+    iconName = 'atmosphere';
+  } else if (weatherId === 800) {
+    iconName = 'clear';
+  } else if (weatherId >= 801 && weatherId <= 804) {
+    iconName = 'clouds';
+  }
+  image.src = `./images/${iconName}.png`;
+  image.alt = iconName;
 }
 
 enableValidation(validationObj);
