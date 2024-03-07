@@ -96,7 +96,6 @@ body {
 }
 
 .content__button_disabled {
-  border: 2px solid rgba(255 0 0);
   pointer-events: none;
 }
 
